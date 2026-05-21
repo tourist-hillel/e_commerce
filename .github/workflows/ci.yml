@@ -72,7 +72,7 @@ jobs:
                 PG_PORT: 5432
 
             - name: Run tests
-              run: python manage.py test shop
+              run: pytest
               env:
                 DJANGO_SETTINGS_MODULE: e_commerce.settings
         
