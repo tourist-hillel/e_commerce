@@ -1,0 +1,30 @@
+name: Pipelines for E-commerce project
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                python-version: '3.12'
+
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install flake8
+
+            - name: Run flake8
+              run: flake8 e_commerce/payments --exclude=migrations --max-line-length=120
+        
+    
