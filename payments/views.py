@@ -1,11 +1,8 @@
-import json
 import logging
 from decimal import Decimal
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponse
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from payments.models import Payment

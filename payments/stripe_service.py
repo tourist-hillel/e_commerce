@@ -1,9 +1,8 @@
 import stripe
 import logging
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model  # noqa: F401 cuz I want
 from django.db import transaction
-from django.utils import timezone
 from decimal import Decimal
 from typing import Dict, Optional, Tuple
 from payments.models import Payment
@@ -27,7 +26,7 @@ class StripePaymentService:
     ) -> Tuple[Payment, stripe.PaymentIntent]:
         if amount < Decimal('0.50'):
             raise ValueError('Мінімальна сума платежу 0.50')
-        
+
         stripe_amount = int(amount * 100)
         payment_metadata = metadata or {}
         payment_metadata['user_id'] = str(user.id)
@@ -71,7 +70,7 @@ class StripePaymentService:
         except Exception as e:
             logger.error(f'Unexpected error while paymnet intent: {str(e)}')
             raise
-    
+
     @staticmethod
     @transaction.atomic
     def confirm_payment(
