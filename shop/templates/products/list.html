@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block 'content' %}
+    <div>
+        {% for product in products %}
+            <div>
+                <p>{% trans 'Назва' %}: {{ product.name }}</p>
+                <p>Ціна: {{ product.current_price }}</p>
+                <p>В наявності: {{ product.stock }}</p>
+            </div>
+            <div>
+                <form action="{% url 'cart_add' product.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="1" min="1">
+                    <button type="submit">Додати в кошик</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

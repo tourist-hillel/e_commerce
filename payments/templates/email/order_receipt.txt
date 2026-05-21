@@ -1,0 +1,6 @@
+Чек за замовлення №{{ order.id }}
+
+Товари в замовленні:
+{% for item in order.items.all %}
+    - {{ item.product }}({{ item.price }}) x {{ item.quantity }} = {{ order.total_price }}
+{% endfor %}

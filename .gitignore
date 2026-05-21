@@ -1,0 +1,9 @@
+*logs*
+.venv
+.env
+htmlcov
+static
+*_coverage
+data
+certs
+attack_*
