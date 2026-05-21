@@ -25,6 +25,6 @@ jobs:
                 pip install flake8
 
             - name: Run flake8
-              run: flake8 e_commerce/payments --exclude=migrations --max-line-length=120
+              run: flake8 payments --exclude=migrations --max-line-length=120
         
     
