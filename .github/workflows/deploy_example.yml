@@ -49,16 +49,24 @@ jobs:
                   type=raw,value=latest,enable=${{ github.ref == 'ref/heads/main'}}
                   type=sha,prefix=,suffix=,format=short
 
-            - name: Build and push Docker image
-              uses: docker/build-push-action@v6
-              with:
-                context: .
-                push: true
-                tags: |
-                    ${{ steps.meta-backend.outputs.tags }}
-                    ${{ env.BACKEND_IMAGE }}:latest
-                labels: ${{ steps.meta-backend.outputs.labels }}
-                cache-from: type=gha
-                cache-to: type=gha,mode=max
-                build-args: |
-                    BUILD_VERSION=${{ github.sha }}
+            # - name: Build and push Docker image
+            #   uses: docker/build-push-action@v6
+            #   with:
+            #     context: .
+            #     push: true
+            #     tags: |
+            #         ${{ steps.meta-backend.outputs.tags }}
+            #         ${{ env.BACKEND_IMAGE }}:latest
+            #     labels: ${{ steps.meta-backend.outputs.labels }}
+            #     cache-from: type=gha
+            #     cache-to: type=gha,mode=max
+            #     build-args: |
+            #         BUILD_VERSION=${{ github.sha }}
+
+            - name: Build and push
+              run: |
+                docker compose build --no-cache
+                docker tag ${{ steps.meta-backend.outputs.tags }}
+                docker tag ${{ env.BACKEND_IMAGE }}:latest
+                docker compose push ${{ steps.meta-backend.outputs.tags }}
+                docker compose push ${{ env.BACKEND_IMAGE }}:latest
