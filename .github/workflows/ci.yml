@@ -53,13 +53,7 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install -r requirements.txt
             
-            - name: PSQL test
-              if: failure()
-              run: |
-                nc -zv localhost 5432
-                psql - h localhost -U postgres -c "SELECT version();" 2>&1 || echo "Connection failed"
-              env:
-                POSTGRES_PASSWORD: test_password
+            
 
             - name: Run migrations
               run: python manage.py migrate
@@ -75,5 +69,18 @@ jobs:
               run: pytest
               env:
                 DJANGO_SETTINGS_MODULE: e_commerce.settings
+                PG_NAME: e_shop
+                PG_USER: e_shop_user
+                PG_PASSWORD: e_shop_password
+                PG_HOST: localhost
+                PG_PORT: 5432
+
+            - name: PSQL test
+              if: failure()
+              run: |
+                nc -zv localhost 5432
+                psql - h localhost -U postgres -c "SELECT version();" 2>&1 || echo "Connection failed"
+              env:
+                POSTGRES_PASSWORD: test_password
         
     
