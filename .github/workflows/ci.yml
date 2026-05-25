@@ -26,5 +26,61 @@ jobs:
 
             - name: Run flake8
               run: flake8 payments --exclude=migrations --max-line-length=120
+
+    test:
+        runs-on: ubuntu-latest
+        services:
+            postgres: 
+                image: postgres:16-alpine
+                env:
+                    POSTGRES_DB: e_shop
+                    POSTGRES_USER: e_shop_user
+                    POSTGRES_PASSWORD: e_shop_password
+                ports:
+                    - 5432:5432
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                python-version: '3.12'
+                
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+            
+            
+
+            - name: Run migrations
+              run: python manage.py migrate
+              env:
+                DJANGO_SETTINGS_MODULE: e_commerce.settings
+                PG_NAME: e_shop
+                PG_USER: e_shop_user
+                PG_PASSWORD: e_shop_password
+                PG_HOST: localhost
+                PG_PORT: 5432
+
+            - name: Run tests
+              run: pytest
+              env:
+                DJANGO_SETTINGS_MODULE: e_commerce.settings
+                PG_NAME: e_shop
+                PG_USER: e_shop_user
+                PG_PASSWORD: e_shop_password
+                PG_HOST: localhost
+                PG_PORT: 5432
+
+            - name: PSQL test
+              if: failure()
+              run: |
+                nc -zv localhost 5432
+                psql - h localhost -U postgres -c "SELECT version();" 2>&1 || echo "Connection failed"
+              env:
+                POSTGRES_PASSWORD: test_password
         
     

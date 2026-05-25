@@ -1,4 +1,4 @@
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import send_mail, EmailMultiAlternatives  # noqa: F401
 from django.template.loader import render_to_string
 
 
@@ -10,7 +10,7 @@ def send_reciept(order):
     #     recipient_list=[email]
     # )
 
-    html_content = render_to_string('email/order_receipt.html', {'order': order})
+    # html_content = render_to_string('email/order_receipt.html', {'order': order})
     text_content = render_to_string('email/order_receipt.txt', {'order': order})
     email = EmailMultiAlternatives(
         subject=f'Замовлення №{order.id}',

@@ -25,6 +25,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             'updated_at'
         ]
 
+
 class CreatePaymentSerializer(serializers.Serializer):
     amount = serializers.DecimalField(
         max_digits=12,
