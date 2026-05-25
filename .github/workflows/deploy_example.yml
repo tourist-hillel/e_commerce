@@ -18,6 +18,19 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v6
 
+            - name: Create .env file
+              run: |
+                cat > .env << EOF
+                DB_TYPE=${{ secrets.DB_TYPE }}
+                PG_NAME=${{ secrets.PG_NAME }}
+                PG_USER=${{ secrets.PG_USER }}
+                PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+                PG_HOST=${{ secrets.PG_HOST }}
+                PG_PORT=${{ secrets.PG_PORT }}
+                CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }}
+                CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }}
+                EOF
+
             - name: Setup Docker Buildx
               uses: docker/setup-buildx-action@v3
             
