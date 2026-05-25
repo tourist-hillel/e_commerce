@@ -9,7 +9,7 @@ on:
                 default: 'main'
 
 env:
-    BACKEND_IMAGE: ${{ secrets.GITHUB_USERNAME }}/ecom
+    BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/ecom
 
 jobs:
     deploy-to-dockerhub:
